@@ -90,5 +90,5 @@ class embeddedWoT_HTTP_LongPoll {
         const char* longPollBoundEvents[MAX_LONGPOLL_HOSTS];
 };
 
-#include "embeddedWoT_HTTP_LongPoll.cpp"
+
 #endif
