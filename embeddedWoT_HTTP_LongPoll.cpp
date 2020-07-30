@@ -1,6 +1,5 @@
 #include "Arduino.h"
 #include <ESPAsyncWebServer.h>
-#include "embeddedWoT_HTTP_LongPoll.h"
 
 embeddedWoT_HTTP_LongPoll::embeddedWoT_HTTP_LongPoll(int serverPort) : server(serverPort) {
     //Setup Longpoll hosts list
