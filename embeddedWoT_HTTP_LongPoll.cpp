@@ -52,20 +52,31 @@ void embeddedWoT_HTTP_LongPoll::sendLongPollTXT(String txt, String eventName) {
 }
 
 void embeddedWoT_HTTP_LongPoll::exposeProperties(const String *endpoints, properties_handler callbacks[], int prop_num) {
-    int i = 0;
+    int i = prop_num -1;
     this->properties_endpoint = endpoints;
     this->properties_cb = callbacks;
 
     this->properties_number = prop_num;
 
-    for(; i < prop_num; i++) {
+    for(; i >= 0; i--) {
         Serial.printf("Ok defined %s\n", endpoints[i].c_str());
         this->server.on(endpoints[i].c_str(), HTTP_GET, [this, i] (AsyncWebServerRequest *req) {
-            Serial.printf("Ok called %s\n", req->url().c_str());
+            Serial.printf("Ok called %s by callback %s\n", req->url().c_str(), "endpoints[i].c_str()");
             String toSend = this->properties_cb[i]();
             req->send(200, "application/ld+json", toSend);
         });
     }
+    // this->server.on("/", HTTP_GET, [this, prop_num, i, endpoints] (AsyncWebServerRequest *req) {
+    //     int i;
+    //     Serial.printf("Ok called %s by callback %s\n", req->url().c_str(), endpoints[i].c_str());
+    //     for (i = 0; i < prop_num; i++) {
+    //         if (strcmp(endpoints[i].c_str(), req->url().c_str()) == 0) {
+    //             String toSend = this->properties_cb[i]();
+    //             req->send(200, "application/ld+json", toSend);
+    //         }
+    //     }
+    // });
+    
 }
 
 void embeddedWoT_HTTP_LongPoll::exposeActions(const String *endpoints, actions_handler callbacks[], int act_num) {
